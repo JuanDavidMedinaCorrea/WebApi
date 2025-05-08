@@ -1,0 +1,6 @@
+@Proyecto_Microservicios_Asp_Net_HostAddress = http://localhost:5252
+
+GET {{Proyecto_Microservicios_Asp_Net_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

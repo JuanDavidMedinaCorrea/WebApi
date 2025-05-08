@@ -38,5 +38,52 @@ namespace WebApi.Controllers
                 })
                 .ToListAsync();
         }
+        [HttpGet("filtrar-por-stock")]
+        public async Task<IActionResult> FiltrarPorStock([FromQuery] bool enStock)
+        {
+            var productos = enStock
+                ? await _context.Productos.Where(p => p.Stock > 0).ToListAsync()
+                : await _context.Productos.Where(p => p.Stock == 0).ToListAsync();
+
+            return Ok(productos);
+        }
+
+
+        [HttpGet("buscar")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<ProductoDto>>> BuscarProductosPorNombre([FromQuery] string nombre)
+        {
+            if (string.IsNullOrWhiteSpace(nombre))
+            {
+                return BadRequest("El nombre no puede estar vacío.");
+            }
+
+            var productos = await _context.Productos
+                .Where(p => p.Nombre.ToLower().Contains(nombre.ToLower()))
+                .Include(p => p.Categoria)
+                .Select(p => new ProductoDto
+                {
+                    Id = p.Id,
+                    Nombre = p.Nombre,
+                    Descripcion = p.Descripcion,
+                    Precio = p.Precio,
+                    Stock = p.Stock,
+                    Categoria = new CategoriaDto
+                    {
+                        Id = p.Categoria.Id,
+                        Nombre = p.Categoria.Nombre
+                    }
+                })
+                .ToListAsync();
+
+            if (productos.Count == 0)
+            {
+                return NotFound("No se encontraron productos con ese nombre.");
+            }
+
+            return Ok(productos);
+        }
+
+
     }
 }

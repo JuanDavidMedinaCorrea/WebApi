@@ -22,6 +22,8 @@ namespace WebApi.Models
         public int Stock { get; set; }
 
         public int CategoriaId { get; set; }
+
+        // Relación con Categoria
         public Categoria Categoria { get; set; }
     }
 }

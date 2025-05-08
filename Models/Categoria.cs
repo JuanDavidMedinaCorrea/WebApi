@@ -10,7 +10,6 @@ namespace WebApi.Models
         [StringLength(50)]
         public string Nombre { get; set; }
 
-        //Santiago
         // Relación con productos
         public List<Producto> Productos { get; set; } = new List<Producto>();
     }

@@ -56,6 +56,6 @@ namespace WebApi.Datos
         public DbSet<Rol> Roles { get; set; }
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
-
+        public DbSet<CategoriaLog> CategoriaLogs { get; set; }
     }
 }
